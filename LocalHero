@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Direktori UMKM Lokal Ramah Lingkungan">
+    <meta name="theme-color" content="#2E7D32">
+    <title>LocalHero - Green UMKM Directory</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #F1F8E9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        nav {
+            background: #2E7D32;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #2E7D32 0%, #43A047 100%);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #2E7D32;
+            padding: 0.875rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Section */
+        section {
+            padding: 4rem 0;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2E7D32;
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+
+        /* UMKM Cards */
+        .umkm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .umkm-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .umkm-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .umkm-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #81C784, #66BB6A);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .umkm-content {
+            padding: 1.5rem;
+        }
+
+        .umkm-title {
+            font-size: 1.5rem;
+            color: #2E7D32;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .umkm-category {
+            display: inline-block;
+            background: #F1F8E9;
+            color: #2E7D32;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+        .umkm-desc {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Detail Page */
+        .detail-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        .detail-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #81C784, #66BB6A);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-title {
+            font-size: 2.5rem;
+            color: #2E7D32;
+            margin-bottom: 1rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            color: #2E7D32;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        .back-btn:hover {
+            opacity: 0.7;
+        }
+
+        /* SDG Section */
+        .sdg-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .sdg-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .sdg-number {
+            font-size: 3rem;
+            color: #2E7D32;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .sdg-title {
+            font-size: 1.5rem;
+            color: #2E7D32;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* About Section */
+        .about-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            max-width: 600px;
+            margin: 2rem auto;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        .about-card h3 {
+            color: #2E7D32;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-card p {
+            margin-bottom: 0.75rem;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            background: #2E7D32;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #2E7D32;
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                padding: 0.75rem 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .umkm-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.25rem;
+            color: #2E7D32;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                🌱 LocalHero
+            </div>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('umkm')">UMKM</a></li>
+                <li><a href="#" onclick="showPage('sdgs')">SDGs Info</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page">
+        <section class="hero">
+            <div class="container">
+                <h1>🌿 LocalHero</h1>
+                <p>Temukan UMKM Lokal Ramah Lingkungan di Sekitarmu</p>
+                <a href="#" class="btn" onclick="showPage('umkm')">Jelajahi UMKM</a>
+            </div>
+        </section>
+
+        <section class="container">
+            <h2>Mengapa LocalHero?</h2>
+            <div class="sdg-grid">
+                <div class="sdg-card">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🌍</div>
+                    <h3 style="color: #2E7D32; margin-bottom: 0.5rem;">Ramah Lingkungan</h3>
+                    <p style="color: #666;">Semua UMKM yang terdaftar menerapkan praktik berkelanjutan dan eco-friendly</p>
+                </div>
+                <div class="sdg-card">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">💚</div>
+                    <h3 style="color: #2E7D32; margin-bottom: 0.5rem;">Mendukung Lokal</h3>
+                    <p style="color: #666;">Bantu ekonomi lokal berkembang dengan mendukung UMKM di sekitar Anda</p>
+                </div>
+                <div class="sdg-card">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">♻️</div>
+                    <h3 style="color: #2E7D32; margin-bottom: 0.5rem;">SDGs Compliant</h3>
+                    <p style="color: #666;">Berkontribusi pada pencapaian SDG 8 dan SDG 12</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- UMKM List Page -->
+    <div id="umkmPage" class="page hidden">
+        <section class="container">
+            <h2>Direktori UMKM</h2>
+            <div class="umkm-grid" id="umkmGrid">
+                <div class="loading">Memuat data UMKM...</div>
+            </div>
+        </section>
+    </div>
+
+    <!-- UMKM Detail Page -->
+    <div id="detailPage" class="page hidden">
+        <section class="container">
+            <a href="#" class="back-btn" onclick="showPage('umkm')">← Kembali ke Daftar UMKM</a>
+            <div class="detail-container" id="detailContent">
+                <!-- Detail will be loaded here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- SDGs Info Page -->
+    <div id="sdgsPage" class="page hidden">
+        <section class="container">
+            <h2>Sustainable Development Goals</h2>
+            <div class="sdg-grid">
+                <div class="sdg-card">
+                    <div class="sdg-number">SDG 8</div>
+                    <h3 class="sdg-title">Pekerjaan Layak dan Pertumbuhan Ekonomi</h3>
+                    <p style="color: #666; line-height: 1.8;">
+                        Mempromosikan pertumbuhan ekonomi yang berkelanjutan dan inklusif, kesempatan kerja yang produktif dan menyeluruh, serta pekerjaan yang layak untuk semua. UMKM lokal berperan penting dalam menciptakan lapangan kerja dan mendorong pertumbuhan ekonomi yang berkelanjutan.
+                    </p>
+                    <ul style="margin-top: 1rem; color: #666; padding-left: 1.5rem;">
+                        <li>Menciptakan lapangan kerja lokal</li>
+                        <li>Meningkatkan produktivitas ekonomi</li>
+                        <li>Mendukung kewirausahaan</li>
+                    </ul>
+                </div>
+                <div class="sdg-card">
+                    <div class="sdg-number">SDG 12</div>
+                    <h3 class="sdg-title">Konsumsi dan Produksi Bertanggung Jawab</h3>
+                    <p style="color: #666; line-height: 1.8;">
+                        Memastikan pola konsumsi dan produksi yang berkelanjutan. UMKM ramah lingkungan menerapkan praktik produksi yang bertanggung jawab, mengurangi limbah, dan menggunakan sumber daya secara efisien untuk melindungi lingkungan.
+                    </p>
+                    <ul style="margin-top: 1rem; color: #666; padding-left: 1.5rem;">
+                        <li>Mengurangi jejak karbon</li>
+                        <li>Penggunaan bahan berkelanjutan</li>
+                        <li>Minimalisasi limbah</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="aboutPage" class="page hidden">
+        <section class="container">
+            <h2>Tentang Kami</h2>
+            <div class="about-card">
+                <h3>Informasi Mahasiswa</h3>
+                <p><strong>Nama:</strong> [Fatikah Angraini]</p>
+                <p><strong>Semester:</strong> [ 5 ]</p>
+                <p><strong>Jurusan:</strong> [Bisnis Digital]</p>
+                <p><strong>Universitas:</strong> [Universitas Sugeng Hartono]</p>
+                <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #E0E0E0;">
+                <h3 style="margin-top: 1.5rem;">Tentang Proyek</h3>
+                <p style="line-height: 1.8;">
+                    LocalHero adalah aplikasi Progressive Web App (PWA) yang dirancang untuk membantu masyarakat menemukan dan mendukung UMKM lokal yang menerapkan praktik ramah lingkungan. Aplikasi ini mendukung pencapaian SDG 8 (Pekerjaan Layak dan Pertumbuhan Ekonomi) dan SDG 12 (Konsumsi dan Produksi Bertanggung Jawab).
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 LocalHero. Mendukung UMKM Berkelanjutan Indonesia 🌱 by Fatikah</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data UMKM
+        const umkmData = [
+            {
+                id: 1,
+                name: "EcoPackaging Solutions",
+                category: "Kemasan Ramah Lingkungan",
+                description: "Produsen kemasan biodegradable dari bahan organik",
+                fullDescription: "EcoPackaging Solutions adalah UMKM yang memproduksi berbagai jenis kemasan ramah lingkungan dari bahan organik yang dapat terurai secara alami. Kami menggunakan bahan baku seperti daun pisang, bambu, dan kertas daur ulang untuk menciptakan solusi kemasan yang aman bagi lingkungan.",
+                sustainability: "Mengurangi penggunaan plastik sekali pakai, menggunakan 100% bahan biodegradable, dan mendukung ekonomi sirkular dengan program daur ulang kemasan bekas.",
+                contact: "ecopack@example.com | 0812-3456-7890",
+                icon: "📦"
+            },
+            {
+                id: 2,
+                name: "Green Fashion Studio",
+                category: "Fashion Berkelanjutan",
+                description: "Butik fashion dengan bahan organik dan pewarna alami",
+                fullDescription: "Green Fashion Studio menghadirkan koleksi pakaian dan aksesoris fashion yang diproduksi dengan bahan organik seperti katun organik, linen, dan serat bambu. Kami menggunakan pewarna alami dari tumbuhan untuk menghasilkan warna-warna indah tanpa merusak lingkungan.",
+                sustainability: "Menggunakan 100% bahan organik, pewarna alami non-toxic, mempekerjakan pengrajin lokal dengan upah layak, dan menerapkan zero-waste production.",
+                contact: "info@greenfashion.com | 0857-8901-2345",
+                icon: "👗"
+            },
+            {
+                id: 3,
+                name: "BioCafe Organik",
+                category: "Kuliner Organik",
+                description: "Kafe dengan menu organik dan konsep zero waste",
+                fullDescription: "BioCafe Organik adalah kafe yang menyajikan berbagai menu makanan dan minuman sehat dari bahan organik lokal. Kami berkomitmen menerapkan konsep zero waste dengan mengkompos sisa makanan dan menggunakan peralatan makan yang dapat digunakan kembali.",
+                sustainability: "100% bahan organik dari petani lokal, zero waste kitchen, kompos organik untuk pupuk, dan tidak menggunakan plastik sekali pakai.",
+                contact: "hello@biocafe.id | 0821-5432-1098",
+                icon: "☕"
+            },
+            {
+                id: 4,
+                name: "ReGrow Urban Farm",
+                category: "Pertanian Urban",
+                description: "Urban farming dengan sistem hidroponik dan aquaponik",
+                fullDescription: "ReGrow Urban Farm mengembangkan konsep pertanian perkotaan dengan teknologi hidroponik dan aquaponik yang hemat air dan lahan. Kami memproduksi sayuran segar organik tanpa pestisida yang dapat dipanen setiap hari untuk memenuhi kebutuhan masyarakat urban.",
+                sustainability: "Hemat air 90%, tanpa pestisida kimia, mengurangi jejak karbon transportasi pangan, dan memberdayakan komunitas urban untuk berkebun.",
+                contact: "regrow@urbanfarm.id | 0878-6543-2109",
+                icon: "🌾"
+            },
+            {
+                id: 5,
+                name: "SolarCraft Workshop",
+                category: "Energi Terbarukan",
+                description: "Produsen dan installer panel surya untuk rumah tangga",
+                fullDescription: "SolarCraft Workshop adalah UMKM yang fokus pada penyediaan dan instalasi panel surya untuk rumah tangga dan usaha kecil. Kami membantu masyarakat beralih ke energi bersih dan terbarukan dengan harga terjangkau dan sistem pembayaran fleksibel.",
+                sustainability: "Menyediakan energi bersih terbarukan, mengurangi emisi karbon, edukasi masyarakat tentang energi hijau, dan menciptakan lapangan kerja hijau.",
+                contact: "solar@solarcraft.co.id | 0813-7654-3210",
+                icon: "☀️"
+            }
+        ];
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed'));
+            });
+        }
+
+        // Navigation
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            
+            if (page === 'home') {
+                document.getElementById('homePage').classList.remove('hidden');
+            } else if (page === 'umkm') {
+                document.getElementById('umkmPage').classList.remove('hidden');
+                loadUMKM();
+            } else if (page === 'sdgs') {
+                document.getElementById('sdgsPage').classList.remove('hidden');
+            } else if (page === 'about') {
+                document.getElementById('aboutPage').classList.remove('hidden');
+            }
+            
+            // Close mobile menu
+            document.getElementById('navLinks').classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Load UMKM List
+        function loadUMKM() {
+            const grid = document.getElementById('umkmGrid');
+            grid.innerHTML = '';
+            
+            umkmData.forEach((umkm, index) => {
+                const card = document.createElement('div');
+                card.className = 'umkm-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.onclick = () => showDetail(umkm.id);
+                
+                card.innerHTML = `
+                    <div class="umkm-image">${umkm.icon}</div>
+                    <div class="umkm-content">
+                        <h3 class="umkm-title">${umkm.name}</h3>
+                        <span class="umkm-category">${umkm.category}</span>
+                        <p class="umkm-desc">${umkm.description}</p>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Show UMKM Detail
+        function showDetail(id) {
+            const umkm = umkmData.find(u => u.id === id);
+            if (!umkm) return;
+            
+            const detailContent = document.getElementById('detailContent');
+            detailContent.innerHTML = `
+                <div class="detail-image">${umkm.icon}</div>
+                <h1 class="detail-title">${umkm.name}</h1>
+                <span class="umkm-category" style="font-size: 1rem; padding: 0.5rem 1rem;">${umkm.category}</span>
+                
+                <h3 style="color: #2E7D32; margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">Tentang Usaha</h3>
+                <p style="color: #666; line-height: 1.8; margin-bottom: 1.5rem;">${umkm.fullDescription}</p>
+                
+                <h3 style="color: #2E7D32; margin-bottom: 1rem; font-size: 1.5rem;">♻️ Praktik Sustainability</h3>
+                <p style="color: #666; line-height: 1.8; margin-bottom: 1.5rem;">${umkm.sustainability}</p>
+                
+                <h3 style="color: #2E7D32; margin-bottom: 1rem; font-size: 1.5rem;">📞 Kontak</h3>
+                <p style="color: #666; line-height: 1.8;">${umkm.contact}</p>
+            `;
+            
+            document.getElementById('detailPage').classList.remove('hidden');
+            document.getElementById('umkmPage').classList.add('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            showPage('home');
+        });
+
+        // Create manifest.json dynamically
+        const manifest = {
+            "name": "LocalHero - Green UMKM Directory",
+            "short_name": "LocalHero",
+            "description": "Direktori UMKM Lokal Ramah Lingkungan",
+            "start_url": "/",
+            "display": "standalone",
+            "background_color": "#F1F8E9",
+            "theme_color": "#2E7D32",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%232E7D32' width='192' height='192' rx='40'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='120' fill='white'%3E🌱%3C/text%3E%3C/svg%3E",
+                    "sizes": "192x192",
+                    "type": "image/svg+xml"
+                },
+                {
+                    "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect fill='%232E7D32' width='512' height='512' rx='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='320' fill='white'%3E🌱%3C/text%3E%3C/svg%3E",
+                    "sizes": "512x512",
+                    "type": "image/svg+xml"
+                }
+            ]
+        };
+
+        const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        document.querySelector('link[rel="manifest"]').href = manifestURL;
+
+        // Create service-worker.js dynamically
+        const swCode = `
+const CACHE_NAME = 'localhero-v1';
+const urlsToCache = [
+  '/',
+  '/index.html'
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(urlsToCache))
+  );
+});
+
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => response || fetch(event.request))
+  );
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
+        `;
+
+        const swBlob = new Blob([swCode], {type: 'application/javascript'});
+        const swURL = URL.createObjectURL(swBlob);
+        
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register(swURL)
+                    .then(reg => console.log('✅ Service Worker registered!'))
+                    .catch(err => console.log('❌ Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>
