@@ -502,8 +502,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2025 LocalHero. 
-                Mendukung UMKM Berkelanjutan Indonesia 🌱 by Fatikah</p>
+            <p>&copy; 2025 LocalHero. Mendukung UMKM Berkelanjutan Indonesia 🌱 by Fatikah</p>
         </div>
     </footer>
 
@@ -528,7 +527,7 @@
                 fullDescription: "Green Fashion Studio menghadirkan koleksi pakaian dan aksesoris fashion yang diproduksi dengan bahan organik seperti katun organik, linen, dan serat bambu. Kami menggunakan pewarna alami dari tumbuhan untuk menghasilkan warna-warna indah tanpa merusak lingkungan.",
                 sustainability: "Menggunakan 100% bahan organik, pewarna alami non-toxic, mempekerjakan pengrajin lokal dengan upah layak, dan menerapkan zero-waste production.",
                 contact: "info@greenfashion.com | 0857-8901-2345",
-                image: "images/GreenFashion.png"
+                icon: "👗"
             },
             {
                 id: 3,
@@ -561,42 +560,40 @@
                 icon: "☀️"
             }
         ];
-function loadUMKM() {
-    const grid = document.getElementById("umkmGrid");
-    grid.innerHTML = "";
 
-    umkmData.forEach(item => {
-        grid.innerHTML += `
-            <div class="umkm-card" onclick="showDetail(${item.id})">
-                <div class="umkm-image">
-                    ${item.image ? `<img src="${item.image}">` : item.icon}
-                </div>
-                <div class="umkm-title">${item.name}</div>
-                <p>${item.description}</p>
-            </div>
-        `;
-    });
-}
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed'));
+            });
+        }
 
-function showDetail(id) {
-    const item = umkmData.find(x => x.id === id);
+        // Navigation
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            
+            if (page === 'home') {
+                document.getElementById('homePage').classList.remove('hidden');
+            } else if (page === 'umkm') {
+                document.getElementById('umkmPage').classList.remove('hidden');
+                loadUMKM();
+            } else if (page === 'sdgs') {
+                document.getElementById('sdgsPage').classList.remove('hidden');
+            } else if (page === 'about') {
+                document.getElementById('aboutPage').classList.remove('hidden');
+            }
+            
+            // Close mobile menu
+            document.getElementById('navLinks').classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
 
-    document.getElementById("listPage").style.display = "none";
-    document.getElementById("detailPage").style.display = "block";
-
-    document.getElementById("detailImage").innerHTML =
-        item.image ? `<img src="${item.image}">` : item.icon;
-
-    document.getElementById("detailName").innerText = item.name;
-    document.getElementById("detailCategory").innerText = item.category;
-    document.getElementById("detailFull").innerText = item.fullDescription;
-    document.getElementById("detailSustain").innerText = "Sustainability: " + item.sustainability;
-    document.getElementById("detailContact").innerText = "Kontak: " + item.contact;
-}
-
-function goBack() {
-    document.getElementById("detailPage").style.display = "none";
-    document.getElementById("listPage").style.display = "block";
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
         }
 
         // Load UMKM List
