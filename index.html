@@ -561,40 +561,42 @@
                 icon: "☀️"
             }
         ];
+function loadUMKM() {
+    const grid = document.getElementById("umkmGrid");
+    grid.innerHTML = "";
 
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(reg => console.log('Service Worker registered'))
-                    .catch(err => console.log('Service Worker registration failed'));
-            });
-        }
+    umkmData.forEach(item => {
+        grid.innerHTML += `
+            <div class="umkm-card" onclick="showDetail(${item.id})">
+                <div class="umkm-image">
+                    ${item.image ? `<img src="${item.image}">` : item.icon}
+                </div>
+                <div class="umkm-title">${item.name}</div>
+                <p>${item.description}</p>
+            </div>
+        `;
+    });
+}
 
-        // Navigation
-        function showPage(page) {
-            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-            
-            if (page === 'home') {
-                document.getElementById('homePage').classList.remove('hidden');
-            } else if (page === 'umkm') {
-                document.getElementById('umkmPage').classList.remove('hidden');
-                loadUMKM();
-            } else if (page === 'sdgs') {
-                document.getElementById('sdgsPage').classList.remove('hidden');
-            } else if (page === 'about') {
-                document.getElementById('aboutPage').classList.remove('hidden');
-            }
-            
-            // Close mobile menu
-            document.getElementById('navLinks').classList.remove('active');
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
-        }
+function showDetail(id) {
+    const item = umkmData.find(x => x.id === id);
 
-        function toggleMenu() {
-            document.getElementById('navLinks').classList.toggle('active');
+    document.getElementById("listPage").style.display = "none";
+    document.getElementById("detailPage").style.display = "block";
+
+    document.getElementById("detailImage").innerHTML =
+        item.image ? `<img src="${item.image}">` : item.icon;
+
+    document.getElementById("detailName").innerText = item.name;
+    document.getElementById("detailCategory").innerText = item.category;
+    document.getElementById("detailFull").innerText = item.fullDescription;
+    document.getElementById("detailSustain").innerText = "Sustainability: " + item.sustainability;
+    document.getElementById("detailContact").innerText = "Kontak: " + item.contact;
+}
+
+function goBack() {
+    document.getElementById("detailPage").style.display = "none";
+    document.getElementById("listPage").style.display = "block";
         }
 
         // Load UMKM List
